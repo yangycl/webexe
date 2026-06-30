@@ -1,0 +1,2 @@
+[console_scripts]
+webexe = webexe.cli:main

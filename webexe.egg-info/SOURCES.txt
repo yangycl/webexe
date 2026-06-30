@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+webexe/cli.py
+webexe.egg-info/PKG-INFO
+webexe.egg-info/SOURCES.txt
+webexe.egg-info/dependency_links.txt
+webexe.egg-info/entry_points.txt
+webexe.egg-info/requires.txt
+webexe.egg-info/top_level.txt

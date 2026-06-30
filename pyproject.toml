@@ -1,0 +1,23 @@
+[build-system]
+requires = [
+    "setuptools>=61",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "webexe"
+version = "0.0.1"
+description = "Build pywebview apps easily"
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "pywebview",
+    "pyinstaller"
+]
+
+
+[project.scripts]
+webexe = "webexe.cli:main"

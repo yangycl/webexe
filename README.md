@@ -1,0 +1,172 @@
+# webexe
+
+Turn your HTML + Python project into a desktop application.
+
+`webexe` uses `pywebview` to combine a web frontend with a Python backend, then optionally packages it into a Windows executable.
+
+## Features
+
+* Use HTML / CSS / JavaScript as your UI
+* Use Python as your backend
+* Expose selected Python APIs to JavaScript
+* Development mode with debugging support
+* Build standalone executable with PyInstaller
+
+## How it works
+
+```
+HTML / JS
+    |
+    v
+pywebview
+    |
+    v
+Python API
+    |
+    v
+Windows EXE
+```
+
+Only functions exposed through `api` are available to the frontend.
+
+Example:
+
+```python
+# back.py
+
+def hello():
+    return "Hello from Python"
+
+
+api = {
+    "hello": hello
+}
+```
+
+Frontend:
+
+```javascript
+const result = await window.pywebview.api.hello();
+console.log(result);
+```
+
+## Installation
+
+```bash
+pip install webexe
+```
+
+## Create a project
+
+Your project should contain:
+
+```
+myapp/
+│
+├─ index.html
+├─ back.py
+└─ build.py
+```
+
+## Development
+
+Run:
+
+```bash
+python build.py --dev
+```
+
+Development mode:
+
+* Runs directly without packaging
+* Opens pywebview debug tools
+* Faster for testing
+
+## Build
+
+Create executable:
+
+```bash
+python build.py
+```
+
+Output:
+
+```
+dist/
+└─ MyApp.exe
+```
+
+## Example
+
+`index.html`
+
+```html
+<!doctype html>
+
+<html>
+<body>
+
+<h1>Hello webexe</h1>
+
+<button onclick="test()">
+    Call Python
+</button>
+
+<script>
+async function test() {
+    const result =
+        await window.pywebview.api.hello();
+
+    alert(result);
+}
+</script>
+
+</body>
+</html>
+```
+
+`back.py`
+
+```python
+def hello():
+    return "Hello from Python"
+
+
+api = {
+    "hello": hello
+}
+```
+
+## Why webexe?
+
+Electron is powerful, but sometimes you only need:
+
+* A lightweight desktop shell
+* A web UI
+* Python automation/backend
+
+`webexe` provides a simpler bridge between web technologies and Python.
+
+## Roadmap
+
+* [ ] `webexe init` project generator
+* [ ] Custom application name
+* [ ] Better error messages
+* [ ] More build options
+
+## Issues
+
+Found a bug or have an idea?
+
+Open an issue and include:
+
+* Python version
+* OS
+* webexe version
+* Error message
+* Steps to reproduce
+
+## License
+
+MIT
