@@ -2,8 +2,23 @@ import os
 import shutil
 import subprocess
 import sys
+import tomllib
 
 def buildmain():
+
+    init_mode = "init" in sys.argv
+
+    if init_mode :
+        webexe_toml = """
+[packageData]
+output = "webexe.exe"
+icon = "icons/favicon.ico"
+name = "webexe"
+"""
+        with open("webexe.toml", "w", encoding="utf8") as f :
+            f.write(webexe_toml)
+
+
 
     print("read file......")
 
@@ -96,6 +111,10 @@ def buildmain():
     else:
         print("build webexe......")
 
+        with open("webexe.toml", "r", encoding="utf8") as f:
+            webexe_settings = tomllib.load(f)
+
+        
         subprocess.run(
             [
                 "python",
@@ -104,7 +123,9 @@ def buildmain():
                 ".webexe/build.py",
                 "--onefile",
                 "--name",
-                "Notebox",
+                webexe_settings.output,
+                "--icon",
+                webexe_settings.icon,
                 "--hidden-import",
                 "back"
             ],
