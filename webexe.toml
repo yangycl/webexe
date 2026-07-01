@@ -1,0 +1,5 @@
+
+[packageData]
+output = "webexe.exe"
+icon = "icons/favicon.ico"
+name = "webexe"

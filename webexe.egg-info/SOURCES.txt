@@ -1,5 +1,7 @@
 README.md
 pyproject.toml
+webexe/__init__.py
+webexe/__main__.py
 webexe/cli.py
 webexe.egg-info/PKG-INFO
 webexe.egg-info/SOURCES.txt
