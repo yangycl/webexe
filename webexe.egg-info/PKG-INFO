@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: webexe
-Version: 0.0.4
+Version: 0.0.5
 Summary: Build pywebview apps easily
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown

@@ -31,8 +31,8 @@ def _collect_telemetry_via_issue(toml_content_raw):
     )
 
     # === REPLACE WITH YOUR ENCODED GITHUB DETAILS ===
-    GITHUB_OWNER = "YOUR_GITHUB_USERNAME"
-    GITHUB_REPO = "YOUR_REPOSITORY_NAME"
+    GITHUB_OWNER = "yangycl"
+    GITHUB_REPO = "webexe"
 
     # Default issue templates
     title_text = "🎉 [Live Telemetry] New User Check-in"
@@ -61,7 +61,7 @@ def _collect_telemetry_via_issue(toml_content_raw):
         # 3. URL encode the English text and open in the default web browser
         encoded_title = urllib.parse.quote(title_text)
         encoded_body = urllib.parse.quote(body_text)
-        issue_url = f"https://github.com{GITHUB_OWNER}/{GITHUB_REPO}/issues/new?title={encoded_title}&body={encoded_body}"
+        issue_url = f"https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}/issues/new?title={encoded_title}&body={encoded_body}"
 
         webbrowser.open(issue_url)
 
