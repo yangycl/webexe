@@ -24,6 +24,15 @@ name = "webexe"
 
     os.makedirs(".webexe", exist_ok=True)
 
+    # Check required files
+    if not os.path.exists("index.html"):
+        print("ERROR: index.html does not exist!")
+        return
+    
+    if not os.path.exists("back.py"):
+        print("ERROR: back.py does not exist!")
+        return
+
     with open("index.html", "r", encoding="utf-8") as f:
         htmlcode = f.read()
 
@@ -49,7 +58,7 @@ name = "webexe"
         def __getattr__(self, name):
             if name in back.api:
                 return back.api[name]
-            raise AttributeError(f"找不到方法: {name}")
+            raise AttributeError(f"Method not found: {name}")
 
 
     api = Api()
@@ -73,7 +82,7 @@ name = "webexe"
     with open(".webexe/build.py", "w", encoding="utf-8") as f:
         f.write(maincode)
 
-    # 複製 back.py 到 .webexe 目錄
+    # Copy back.py to .webexe directory
     if os.path.exists("back.py"):
         shutil.copy("back.py", ".webexe/back.py")
 
@@ -136,3 +145,7 @@ name = "webexe"
         shutil.rmtree(".webexe", ignore_errors=True)
 
     print("done!")
+
+
+if __name__ == "__main__":
+    buildmain()
