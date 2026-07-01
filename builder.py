@@ -2,8 +2,6 @@ import os
 import shutil
 import subprocess
 import sys
-import subprocess
-import shutil
 
 def buildmain():
 
@@ -22,10 +20,11 @@ def buildmain():
     import sys
     from pathlib import Path
 
-    sys.path.insert(
-        0,
-        str(Path(__file__).parent.parent)
-    )
+    if not getattr(sys, "frozen", False):
+        sys.path.insert(
+            0,
+            str(Path(__file__).parent.parent)
+        )
 
     import webview
     import back
@@ -59,6 +58,9 @@ def buildmain():
     with open(".webexe/build.py", "w", encoding="utf-8") as f:
         f.write(maincode)
 
+    # 複製 back.py 到 .webexe 目錄
+    if os.path.exists("back.py"):
+        shutil.copy("back.py", ".webexe/back.py")
 
     print("install packages......")
 
@@ -102,7 +104,9 @@ def buildmain():
                 ".webexe/build.py",
                 "--onefile",
                 "--name",
-                "Notebox"
+                "Notebox",
+                "--hidden-import",
+                "back"
             ],
             check=True
         )
