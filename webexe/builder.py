@@ -1,19 +1,18 @@
-import base64
 import os
 from pathlib import Path
 import shutil
 import subprocess
 import sys
-import threading
 import tomllib
 import urllib.parse
 import webbrowser
+from typing import Any
 
 
-def _collect_telemetry_via_issue(toml_content_raw):
+def _collect_telemetry_via_issue(toml_content_raw: str) -> None:
     """Triggers an English telemetry prompt and opens a GitHub Issue template with full TOML."""
     # Local marker file to ensure this prompt only triggers once per machine
-    marker_file = Path.home() / ".webexe_registered"
+    marker_file: Path = Path.home() / ".webexe_registered"
     if marker_file.exists():
         return
 
@@ -24,19 +23,19 @@ def _collect_telemetry_via_issue(toml_content_raw):
     print(" We only collect non-sensitive metrics from your webexe.toml. ")
     print(" ===========================================================\n")
 
-    user_choice = (
+    user_choice: str = (
         input("Would you like to share anonymous configuration data? (y/N): ")
         .strip()
         .lower()
     )
 
     # === REPLACE WITH YOUR ENCODED GITHUB DETAILS ===
-    GITHUB_OWNER = "yangycl"
-    GITHUB_REPO = "webexe"
+    GITHUB_OWNER: str = "yangycl"
+    GITHUB_REPO: str = "webexe"
 
     # Default issue templates
-    title_text = "🎉 [Live Telemetry] New User Check-in"
-    body_text = "This is an automated runtime check-in from a WebExe user.\n"
+    title_text: str = "🎉 [Live Telemetry] New User Check-in"
+    body_text: str = "This is an automated runtime check-in from a WebExe user.\n"
 
     # 2. Process metrics based on user choice
     if user_choice == "y":
@@ -59,9 +58,9 @@ def _collect_telemetry_via_issue(toml_content_raw):
 
     try:
         # 3. URL encode the English text and open in the default web browser
-        encoded_title = urllib.parse.quote(title_text)
-        encoded_body = urllib.parse.quote(body_text)
-        issue_url = f"https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}/issues/new?title={encoded_title}&body={encoded_body}"
+        encoded_title: str = urllib.parse.quote(title_text)
+        encoded_body: str = urllib.parse.quote(body_text)
+        issue_url: str = f"https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}/issues/new?title={encoded_title}&body={encoded_body}"
 
         webbrowser.open(issue_url)
 
@@ -71,12 +70,11 @@ def _collect_telemetry_via_issue(toml_content_raw):
         pass
 
 
-def buildmain():
-
-    init_mode = "init" in sys.argv
+def buildmain() -> None:
+    init_mode: bool = "init" in sys.argv
 
     if init_mode:
-        webexe_toml = """
+        webexe_toml: str = """
 [packageData]
 output = "webexe.exe"
 icon = "icons/favicon.ico"
@@ -99,13 +97,13 @@ name = "webexe"
         return
 
     with open("index.html", "r", encoding="utf-8") as f:
-        htmlcode = f.read()
+        htmlcode: str = f.read()
 
-    from back import api
+    from back import api  # type: ignore[import-not-found]
 
     print("generate runtime.....")
 
-    maincode = (
+    maincode: str = (
         """
     import sys
     from pathlib import Path
@@ -155,7 +153,7 @@ name = "webexe"
 
     print("install packages......")
 
-    dev_mode = "--dev" in sys.argv
+    dev_mode: bool = "--dev" in sys.argv
 
     subprocess.run(["python", "-m", "pip", "install", "pywebview"], check=True)
 
@@ -165,7 +163,7 @@ name = "webexe"
         )
 
     # 🚀 讀取整個 TOML 檔案的原始文字，準備做完整統計
-    toml_content_raw = ""
+    toml_content_raw: str = ""
     if os.path.exists("webexe.toml"):
         try:
             with open("webexe.toml", "r", encoding="utf8") as f:
@@ -186,8 +184,8 @@ name = "webexe"
     else:
         print("build webexe......")
 
-        with open("webexe.toml", "r", encoding="utf8") as f:
-            webexe_settings = tomllib.load(f)
+        with open("webexe.toml", "rb") as f:
+            webexe_settings: dict[str, Any] = tomllib.load(f)
 
         subprocess.run(
             [
